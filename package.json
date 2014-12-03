@@ -1,0 +1,17 @@
+{
+  "name": "poor-mans-electric-objects",
+  "version": "1.0.0",
+  "description": "poor man's electric objects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bertrand Fan",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^2.3.11",
+    "config": "^1.8.1",
+    "json5": "^0.4.0",
+    "request": "^2.49.0"
+  }
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>poor man's electric objects</title>
+    <style>
+		
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			background: #000000;
+		}
+
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js"></script>
+    <script src="images.js"></script>
+</head>
+<body>
+
+	<div id="container"></div>
+
+    <script>
+
+		(function ($) {
+
+			$.fn.photoResize = function() {
+
+				var element	= $(this);
+				
+				$(element).load(function () {
+
+					updatePhotoDimensions();
+
+					$(window).bind('resize', function () {
+						updatePhotoDimensions();
+					});
+				});
+
+				function updatePhotoDimensions() {
+
+					var photoHeight = $(window).height(),
+						photoWidth = $(window).width();
+
+					$(element).attr('height', photoHeight);
+					$(element).attr('width', photoWidth);
+
+				}
+
+			};
+
+		}(jQuery));
+
+		var container = $('#container');
+		var queue = container.queue();
+
+    	images = _.shuffle(images);
+		images.forEach(function(image) {
+
+			queue.push(function(){
+
+				var imageEl = new Image();
+				$(imageEl).photoResize();
+				
+				imageEl.onload = function() {
+					container.fadeOut(500, function() {
+						container.empty();
+						container.append(imageEl);
+						container.fadeIn(500);
+					});
+				};
+
+				imageEl.src = image.url;
+
+			});
+
+		});
+
+		var displayNewImage = function() {
+
+			var action = queue.pop();
+			if (action) {
+				action();
+			}
+
+		};
+
+		displayNewImage();
+		setInterval(displayNewImage, 60000);		
+
+    </script>
+
+</body>
+</html>
